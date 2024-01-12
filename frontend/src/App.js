@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import axios from "./utils/axios.js";
 import SignUp from './components/Signup.jsx'
 import SignIn from './components/Signin.jsx'
+import Home from './components/Home.jsx'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";function App() {
   useEffect(() => {
     axios
@@ -20,6 +21,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";functi
         <Routes>
           <Route path="/" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/home" element={<Home/>} />
+
         </Routes>
       </Router>
     </>
