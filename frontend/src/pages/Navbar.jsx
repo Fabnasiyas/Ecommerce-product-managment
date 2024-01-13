@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
+import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <>
@@ -34,9 +35,9 @@ const Navbar = () => {
                 0
               </span>
             </div>
-
+<Link to='/signin'>
             <button className="text-white">Sign In</button>
-
+            </Link>
             <div className="text-white flex items-center">
               <IoCartOutline className="text-2xl" />
               <span className="ml-1 rounded-full bg-customYellow text-white px-1 text-xs">

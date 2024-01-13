@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import MainPage from "./MainPage";
 const HomePage = () => {
-  const [isCategory1Open, setCategory1Open] = useState(false);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen overflow-hidden">
       <Navbar />
       <div className="flex-1">
         <div className="flex">
           <Sidebar />
 
-          <div className="flex-1 ">
+          <div className="flex-1 px-14 -ml-40 ">
             <MainPage />
           </div>
         </div>
