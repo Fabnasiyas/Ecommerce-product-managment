@@ -40,7 +40,7 @@ const EditProductModal = ({ isOpen, onClose, productDataToEdit }) => {
     const fetchSubcategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/category/getallsubcategories"
+          `${process.env.REACT_APP_BASE_URL}/category/getallsubcategories`
         );
 
         setSubcategories(response.data);
@@ -126,7 +126,7 @@ const EditProductModal = ({ isOpen, onClose, productDataToEdit }) => {
 
     try {
       const response = await axios.put(
-        `http://localhost:4000/product/updateProduct/${productDataToEdit._id}`,
+        `${process.env.REACT_APP_BASE_URL}/product/updateProduct/${productDataToEdit._id}`,
         {
           title: productTitle,
           variants: variants.map((variant) => ({

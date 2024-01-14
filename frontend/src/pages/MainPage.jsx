@@ -24,7 +24,7 @@ const MainPage = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/product/getAllProducts"
+          `${process.env.REACT_APP_BASE_URL}/product/getAllProducts`
         );
         setProducts(response.data);
       } catch (error) {
@@ -42,7 +42,7 @@ const MainPage = () => {
       
 
       const response = await axios.post(
-        `http://localhost:4000/addtowishlist/${productId}/${userId}`
+        `${process.env.REACT_APP_BASE_URL}/addtowishlist/${productId}/${userId}`
       );
 
       if (response.status === 200) {

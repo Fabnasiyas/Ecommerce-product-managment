@@ -34,7 +34,7 @@ const ViewProductDetails = () => {
     const fetchProductDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/product/getProductDetails/${productId}`
+          `${process.env.REACT_APP_BASE_URL}/product/getProductDetails/${productId}`
         );
         setProduct(response.data);
       } catch (error) {

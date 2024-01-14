@@ -7,7 +7,7 @@ const AddcategoryModal = ({ isOpen, onClose }) => {
   const handleAdd = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/category/addcategory",
+        `${process.env.REACT_APP_BASE_URL}/category/addcategory`,
         {
           name: inputValue,
         }

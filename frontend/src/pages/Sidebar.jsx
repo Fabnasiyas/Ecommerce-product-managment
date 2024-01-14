@@ -10,7 +10,7 @@ const Sidebar = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/category/categorieslisting"
+          `${process.env.REACT_APP_BASE_URL}/category/categorieslisting`
         );
         setCategories(response.data);
       } catch (error) {

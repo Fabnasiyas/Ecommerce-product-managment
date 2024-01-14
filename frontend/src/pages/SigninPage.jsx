@@ -26,7 +26,7 @@ const SigninPage = () => {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await axios.post("http://localhost:4000/login", values);
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, values);
 
       if (response.status === 200) {
         toast.success("Successfully logged in");

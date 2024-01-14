@@ -10,7 +10,7 @@ const AddSubcategoryModal = ({ isOpen, onClose }) => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/category/getallaategories"
+          `${process.env.REACT_APP_BASE_URL}/category/getallaategories`
         );
         setCategories(response.data);
       } catch (error) {
@@ -26,7 +26,7 @@ const AddSubcategoryModal = ({ isOpen, onClose }) => {
   const handleAdd = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/category/addsubcategory",
+        `${process.env.REACT_APP_BASE_URL}/category/addsubcategory`,
         {
           categoryId: selectedCategory,
           name: subCategoryValue,

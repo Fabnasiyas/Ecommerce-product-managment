@@ -26,7 +26,7 @@ const SignupPage = () => {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await axios.post("/signup", values);
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/signup`, values);
 
       if (response.status === 201) {
         toast.success("User created successfully");

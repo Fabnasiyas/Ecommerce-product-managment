@@ -22,7 +22,7 @@ const AddProductModal = ({ isOpen, onClose }) => {
     const fetchSubcategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/category/getallsubcategories"
+          `${process.env.REACT_APP_BASE_URL}/category/getallsubcategories`
         );
 
         setSubcategories(response.data);
@@ -110,7 +110,7 @@ const AddProductModal = ({ isOpen, onClose }) => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:4000/product/addProduct",
+        `${process.env.REACT_APP_BASE_URL}/product/addProduct`,
         {
           title: productTitle,
           variants: variants,
