@@ -51,3 +51,10 @@ console.log(req.body);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+export const handleAddToWishList=async(req,res)=>{
+  const productId = req.params.productsId;
+    console.log('====================================');
+  console.log(productId);
+  console.log('====================================');
+}

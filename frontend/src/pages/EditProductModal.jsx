@@ -4,7 +4,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import axios from "../utils/axios";
 
 import { PlusIcon } from "@heroicons/react/solid";
-const AddProductModal = ({ isOpen, onClose }) => {
+const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
+  console.log("Product data to edit in modal:", productDataToEdit);
   const [productTitle, setProductTitle] = useState("");
   const [variants, setVariants] = useState([
     { id: 1, RAM: "", price: "", quantity: 0 },
@@ -13,12 +14,33 @@ const AddProductModal = ({ isOpen, onClose }) => {
   const [productDescription, setProductDescription] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
+  
   const [formErrors, setFormErrors] = useState({
     productTitle: "",
     selectedSubcategory: "",
     productDescription: "",
   });
+
+  
+
+  
   useEffect(() => {
+    if (productDataToEdit) {
+      // Set initial state based on productDataToEdit
+      setProductTitle(productDataToEdit.title || "");
+      setVariants(
+        productDataToEdit.variants.map((variant, index) => ({
+          id: index + 1,
+          RAM: variant.ram || "",
+          price: variant.price || "",
+          quantity: variant.qty || 0,
+        }))
+      );
+            setSelectedSubcategory(productDataToEdit.subCategory || "");
+      setProductDescription(productDataToEdit.description || "");
+      setSelectedImages(productDataToEdit.imageUrl || []);
+    }
+    console.log("Product data to edit in modal:", productDataToEdit);
     const fetchSubcategories = async () => {
       try {
         const response = await axios.get(
@@ -31,12 +53,12 @@ const AddProductModal = ({ isOpen, onClose }) => {
       }
     };
     fetchSubcategories();
-  }, []);
+  }, [productDataToEdit]);
 
   const handleAddVariant = () => {
-    setVariants([
-      ...variants,
-      { id: variants.length + 1, RAM: "", price: "", quantity: 0 },
+    setVariants((prevVariants) => [
+      ...prevVariants,
+      { id: prevVariants.length + 1, RAM: "", price: "", quantity: 0 },
     ]);
   };
 
@@ -73,8 +95,7 @@ const AddProductModal = ({ isOpen, onClose }) => {
         });
     }
   };
-  console.log("....sekekcted from uplod");
-  console.log(selectedImages);
+  
 
   const removeImage = (index) => {
     const updatedImages = [...selectedImages];
@@ -84,58 +105,63 @@ const AddProductModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     let errors = {
       productTitle: "",
       selectedSubcategory: "",
       productDescription: "",
     };
-
+  
     if (!productTitle.trim()) {
       errors.productTitle = "Product title is required";
     }
-
+  
     if (!selectedSubcategory) {
       errors.selectedSubcategory = "Subcategory is required";
     }
-
+  
     if (!productDescription.trim()) {
       errors.productDescription = "Product description is required";
     }
-
+  
     setFormErrors(errors);
-
+  
     if (Object.values(errors).some((error) => error)) {
       return;
     }
+  
     try {
-      const response = await axios.post(
-        "http://localhost:4000/product/addProduct",
+      console.log(selectedSubcategory,'hhhhhhhhhhhhhhhhhhh');
+      const response = await axios.put(
+        `http://localhost:4000/product/updateProduct/${productDataToEdit._id}`,
         {
           title: productTitle,
-          variants: variants,
+          variants: variants.map((variant) => ({
+            ram: variant.RAM,
+            price: variant.price,
+            qty: variant.quantity,
+          })),
           subcategory: selectedSubcategory,
           description: productDescription,
           images: selectedImages,
         }
       );
-
-      if (response.status === 201) {
+  
+      if (response.status === 200) {
         setProductTitle("");
         setVariants([{ id: 1, RAM: "", price: "", quantity: 0 }]);
         setSelectedSubcategory("");
         setProductDescription("");
         setSelectedImages([]);
-
+  
         onClose();
       } else {
         console.error("Unexpected response status:", response.status);
       }
     } catch (error) {
-      console.error("Error adding product:", error.message);
+      console.error("Error updating product:", error.message);
     }
   };
-
+  
   const handleCancel = () => {
     onClose();
   };
@@ -145,11 +171,13 @@ const AddProductModal = ({ isOpen, onClose }) => {
   }
 
   return (
+    
     <form onSubmit={handleSubmit}>
+
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="absolute bg-gray-800 bg-opacity-75 inset-0"></div>
         <div className="bg-white p-7 rounded-lg z-10 w-2/4">
-          <h1 className="text-xl text-center mb-7 mt-5">Add Product</h1>
+          <h1 className="text-xl text-center mb-7 mt-5">Edit Product</h1>
 
           <table>
             <tbody>
@@ -163,6 +191,7 @@ const AddProductModal = ({ isOpen, onClose }) => {
                   <input
                     type="text"
                     value={productTitle}
+                    
                     onChange={(e) => setProductTitle(e.target.value)}
                     className={`border w-full py-4 px-7 rounded-xl mb-10 ${
                       formErrors.productTitle && "border-red-500"
@@ -227,6 +256,7 @@ const AddProductModal = ({ isOpen, onClose }) => {
                       </label>
                       <div className="flex items-center ">
                         <button
+                        type="button"
                           onClick={() => {
                             const updatedVariants = [...variants];
                             const index = updatedVariants.findIndex(
@@ -243,6 +273,7 @@ const AddProductModal = ({ isOpen, onClose }) => {
                         <span className="px-2 -mt-9">{variant.quantity}</span>
 
                         <button
+                        type="button"
                           onClick={() => {
                             const updatedVariants = [...variants];
                             const index = updatedVariants.findIndex(
@@ -284,8 +315,10 @@ const AddProductModal = ({ isOpen, onClose }) => {
                 <td>
                   <select
                     value={selectedSubcategory}
-                    onChange={(e) => setSelectedSubcategory(e.target.value)}
-                    className={`border w-full py-4 px-7 rounded-xl text-gray-500 mb-10 ${
+                    onChange={(e) => 
+                      {console.log(e.target.value,'......value..');
+                        setSelectedSubcategory(e.target.value)}
+                    } className={`border w-full py-4 px-7 rounded-xl text-gray-500 mb-10 ${
                       formErrors.selectedSubcategory && "border-red-500"
                     }`}
                   >
@@ -393,4 +426,4 @@ const AddProductModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default AddProductModal;
+export default EditProductModal;

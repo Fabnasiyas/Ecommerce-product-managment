@@ -48,11 +48,12 @@ export const getAllProducts=async(req,res)=>{
   }
 }
 export const getProductData = async (req, res) => {
-  console.log('.............................');
   try {
     const productId = req.params.productId;
+    
+    
     const productDetails = await ProductModel.findById(productId);
-console.log(productDetails);
+
     if (!productDetails) {
       return res.status(404).json({ error: 'Product not found' });
     }
@@ -64,3 +65,41 @@ console.log(productDetails);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+  export const EditProduct = async (req, res) => {
+    const productId = req.params.productId;
+    console.log('====================================');
+    const {images}=req.body
+    const UploadImages = await Promise.all(
+      images.map(async (image) => {
+        return await uploadImage(image);
+      })
+    );
+
+    async function uploadImage(image) {
+      return (await cloudinary.uploader.upload(image, { folder: "ProductImage" }))
+        .secure_url;
+    }
+    
+    try {
+      const updatedProduct = await ProductModel.findByIdAndUpdate(
+        productId,
+        {
+          title: req.body.title,
+          variants: req.body.variants,
+          subCategory: req.body.subcategory,
+          description: req.body.description,
+          imageUrl: UploadImages,
+        },
+        { new: true } 
+      );
+      if (!updatedProduct) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+  
+      res.status(200).json({ message: 'Product updated successfully', product: updatedProduct });
+
+    } catch (error) {
+      console.error('Error updating product:', error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
