@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../pages/Navbar";
 import { useParams } from "react-router-dom";
-import EditProduct from '../pages/EditProductModal.jsx'
+import EditProduct from "../pages/EditProductModal.jsx";
 import axios from "../utils/axios";
 import { FaRegHeart } from "react-icons/fa";
 const ViewProductDetails = () => {
@@ -16,11 +16,9 @@ const ViewProductDetails = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
   const handleImageClick = (index) => {
-    // Update the selected image index when an image is clicked
     setSelectedImageIndex(index);
   };
   const handleCloseModal = () => {
-    
     setEditProductModalOpen(false);
   };
   const decrementQuantity = () => {
@@ -31,8 +29,7 @@ const ViewProductDetails = () => {
     setProductDataToEdit(product);
     setEditProductModalOpen(true);
   };
-  
-  
+
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
@@ -51,21 +48,19 @@ const ViewProductDetails = () => {
   return (
     <div>
       <Navbar />
-      
+
       <div className="flex h-screen overflow-hidden">
         <div className="w-1/2 h-48 py-32 pl-28 pr-9">
           <div className="border border-gray-900 rounded-xl flex justify-center items-center">
-          
             <div className="p-5 m-5 ">
-            
               {product && (
                 <img
-                src={product.imageUrl[selectedImageIndex]}                   alt=""
+                  src={product.imageUrl[selectedImageIndex]}
+                  alt=""
                   className="h-20rem w-21rem rounded-lg object-contain"
                 />
               )}{" "}
             </div>
-            
           </div>
           <div>
             <div className="p-3 m-3 flex space-x-2">
@@ -76,13 +71,17 @@ const ViewProductDetails = () => {
                     src={image}
                     onClick={() => handleImageClick(index)}
                     alt={`Product Image ${index + 1}`}
-                    className={`h-32 w-32 border border-gray-300 rounded-lg cursor-pointer ${selectedImageIndex === index ? 'border-customBlue border-4' : ''}`}                  />
+                    className={`h-32 w-32 border border-gray-300 rounded-lg cursor-pointer ${
+                      selectedImageIndex === index
+                        ? "border-customBlue border-4"
+                        : ""
+                    }`}
+                  />
                 ))}
             </div>
           </div>
         </div>
 
-       
         <div className="flex-1 p-4  flex flex-col  items-start">
           {product && (
             <div className="mt-32">
@@ -103,7 +102,6 @@ const ViewProductDetails = () => {
             <div className="flex items-center mb-3">
               <h1 className="mb-3 mr-2">RAM:</h1>
               <div className="flex">
-           
                 <div className="flex space-x-2">
                   {product &&
                     product.variants.map((variant, index) => (
@@ -142,11 +140,17 @@ const ViewProductDetails = () => {
               </div>
             </div>
 
-            <button onClick={handleEditProductModalClick} className="bg-customYellow text-white px-12 py-4 m-5 rounded-xl">
+            <button
+              onClick={handleEditProductModalClick}
+              className="bg-customYellow text-white px-12 py-4 m-5 rounded-xl"
+            >
               Edit Product
             </button>
-            <EditProduct isOpen={isEditProductModal}
-          onClose={handleCloseModal} productDataToEdit={productDataToEdit}  />
+            <EditProduct
+              isOpen={isEditProductModal}
+              onClose={handleCloseModal}
+              productDataToEdit={productDataToEdit}
+            />
             <button className="bg-customYellow text-white px-12 py-4 m-5 rounded-xl">
               But it Now
             </button>

@@ -6,5 +6,5 @@ const router = express.Router();
 
 router.post('/signup', handleSignup);
 router.post('/login',handleSigIn)
-router.post('/addtowishlist/:productsId',handleAddToWishList)
+router.post('/addtowishlist/:productId/:userId',handleAddToWishList)
 export default router;

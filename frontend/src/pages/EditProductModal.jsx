@@ -4,7 +4,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import axios from "../utils/axios";
 
 import { PlusIcon } from "@heroicons/react/solid";
-const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
+const EditProductModal = ({ isOpen, onClose, productDataToEdit }) => {
   console.log("Product data to edit in modal:", productDataToEdit);
   const [productTitle, setProductTitle] = useState("");
   const [variants, setVariants] = useState([
@@ -14,19 +14,15 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
   const [productDescription, setProductDescription] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
-  
+
   const [formErrors, setFormErrors] = useState({
     productTitle: "",
     selectedSubcategory: "",
     productDescription: "",
   });
 
-  
-
-  
   useEffect(() => {
     if (productDataToEdit) {
-      // Set initial state based on productDataToEdit
       setProductTitle(productDataToEdit.title || "");
       setVariants(
         productDataToEdit.variants.map((variant, index) => ({
@@ -36,7 +32,7 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
           quantity: variant.qty || 0,
         }))
       );
-            setSelectedSubcategory(productDataToEdit.subCategory || "");
+      setSelectedSubcategory(productDataToEdit.subCategory || "");
       setProductDescription(productDataToEdit.description || "");
       setSelectedImages(productDataToEdit.imageUrl || []);
     }
@@ -95,7 +91,6 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
         });
     }
   };
-  
 
   const removeImage = (index) => {
     const updatedImages = [...selectedImages];
@@ -110,27 +105,26 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
       selectedSubcategory: "",
       productDescription: "",
     };
-  
+
     if (!productTitle.trim()) {
       errors.productTitle = "Product title is required";
     }
-  
+
     if (!selectedSubcategory) {
       errors.selectedSubcategory = "Subcategory is required";
     }
-  
+
     if (!productDescription.trim()) {
       errors.productDescription = "Product description is required";
     }
-  
+
     setFormErrors(errors);
-  
+
     if (Object.values(errors).some((error) => error)) {
       return;
     }
-  
+
     try {
-      console.log(selectedSubcategory,'hhhhhhhhhhhhhhhhhhh');
       const response = await axios.put(
         `http://localhost:4000/product/updateProduct/${productDataToEdit._id}`,
         {
@@ -145,14 +139,14 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
           images: selectedImages,
         }
       );
-  
+
       if (response.status === 200) {
         setProductTitle("");
         setVariants([{ id: 1, RAM: "", price: "", quantity: 0 }]);
         setSelectedSubcategory("");
         setProductDescription("");
         setSelectedImages([]);
-  
+
         onClose();
       } else {
         console.error("Unexpected response status:", response.status);
@@ -161,7 +155,7 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
       console.error("Error updating product:", error.message);
     }
   };
-  
+
   const handleCancel = () => {
     onClose();
   };
@@ -171,9 +165,7 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
   }
 
   return (
-    
     <form onSubmit={handleSubmit}>
-
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="absolute bg-gray-800 bg-opacity-75 inset-0"></div>
         <div className="bg-white p-7 rounded-lg z-10 w-2/4">
@@ -191,7 +183,6 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
                   <input
                     type="text"
                     value={productTitle}
-                    
                     onChange={(e) => setProductTitle(e.target.value)}
                     className={`border w-full py-4 px-7 rounded-xl mb-10 ${
                       formErrors.productTitle && "border-red-500"
@@ -256,7 +247,7 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
                       </label>
                       <div className="flex items-center ">
                         <button
-                        type="button"
+                          type="button"
                           onClick={() => {
                             const updatedVariants = [...variants];
                             const index = updatedVariants.findIndex(
@@ -273,7 +264,7 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
                         <span className="px-2 -mt-9">{variant.quantity}</span>
 
                         <button
-                        type="button"
+                          type="button"
                           onClick={() => {
                             const updatedVariants = [...variants];
                             const index = updatedVariants.findIndex(
@@ -315,10 +306,11 @@ const EditProductModal = ({ isOpen, onClose ,productDataToEdit }) => {
                 <td>
                   <select
                     value={selectedSubcategory}
-                    onChange={(e) => 
-                      {console.log(e.target.value,'......value..');
-                        setSelectedSubcategory(e.target.value)}
-                    } className={`border w-full py-4 px-7 rounded-xl text-gray-500 mb-10 ${
+                    onChange={(e) => {
+                      console.log(e.target.value, "......value..");
+                      setSelectedSubcategory(e.target.value);
+                    }}
+                    className={`border w-full py-4 px-7 rounded-xl text-gray-500 mb-10 ${
                       formErrors.selectedSubcategory && "border-red-500"
                     }`}
                   >

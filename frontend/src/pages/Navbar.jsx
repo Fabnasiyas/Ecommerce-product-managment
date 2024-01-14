@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <>
-     <nav className="bg-customBlue p-5">
+      <nav className="bg-customBlue p-5">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex-1 flex ml-60">
             <div className="relative flex items-center">
@@ -35,8 +35,8 @@ const Navbar = () => {
                 0
               </span>
             </div>
-<Link to='/signin'>
-            <button className="text-white">Sign In</button>
+            <Link to="/signin">
+              <button className="text-white">Sign In</button>
             </Link>
             <div className="text-white flex items-center">
               <IoCartOutline className="text-2xl" />
@@ -49,7 +49,7 @@ const Navbar = () => {
         </div>
       </nav>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

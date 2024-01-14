@@ -7,8 +7,8 @@ const categorySchema = new mongoose.Schema({
     unique: true,
   },
   subcategories: {
-    type: [String], // Array of strings
-    default: [],    // Default to an empty array
+    type: [String], 
+    default: [],   
   },
 });
 

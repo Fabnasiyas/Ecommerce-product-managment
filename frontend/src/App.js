@@ -6,11 +6,14 @@ import Home from './components/Home.jsx'
 import ViewProduct from './components/ViewProducetDetails.jsx'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Provider } from 'react-redux';
+import store from './store/store.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";function App() {
  
 
   return (
     <>
+    <Provider store={store}>
     <Router>
         <Routes>
           <Route path="/" element={<SignUp />} />
@@ -22,6 +25,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";functi
         </Routes>
       </Router>
       <ToastContainer position="top-center" />
+      </Provider>
     </>
   );
 }

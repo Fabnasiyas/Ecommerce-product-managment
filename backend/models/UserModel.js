@@ -16,7 +16,10 @@ const userSchema = mongoose.Schema({
     wallet: {
         type: Number,
         default: 0
-    }
+    }, wishlist: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+    }],
 });
 
 const userModel = mongoose.model('User', userSchema);

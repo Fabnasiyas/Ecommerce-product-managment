@@ -5,7 +5,7 @@ import AddProductModal from "./AddProductModal";
 import axios from "../utils/axios";
 import { Link } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
-
+import { useSelector } from "react-redux";
 const MainPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [issubcategoryaddModalOpen, setSubcategoryAddModalOpen] =
@@ -18,6 +18,8 @@ const MainPage = () => {
   const handleButtonClick = () => {
     setModalOpen(true);
   };
+  const loginData = useSelector((state) => state);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -32,19 +34,22 @@ const MainPage = () => {
 
     fetchProducts();
   }, []);
+  const Data = useSelector((state) => state);
+  const userId = Data.user ? Data.user._id : null;
+
   const addToWishlist = async (productId) => {
     try {
-      console.log("====================================");
-      console.log(".........addtowishlist.............");
-      console.log("====================================");
+      
 
       const response = await axios.post(
-        `http://localhost:4000/addtowishlist/${productId}`
+        `http://localhost:4000/addtowishlist/${productId}/${userId}`
       );
 
       if (response.status === 200) {
-        // Handle success, update state, or perform any other action
         console.log("Product added to wishlist successfully");
+      } else if (response.status === 400) {
+        //already existing wishlist
+        // setIsAddedToWishlist((prev) => !prev);
       } else {
         console.error("Failed to add to wishlist. Status:", response.status);
       }
@@ -115,11 +120,11 @@ const MainPage = () => {
                   }`}
                   size={17}
                   onClick={() => addToWishlist(product._id)}
-                />   
+                />
               </div>
               <Link to={`/home/viewproductdetails/${product._id}`}>
                 <img
-                  className="w-full h-32 object-contain rounded-t-lg mb-4"
+                  className="w-full h-40 object-contain rounded-t-lg mb-4"
                   src={product.imageUrl[0]}
                   alt="product image"
                 />

@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import MainPage from "./MainPage";
 const HomePage = () => {
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col h-screen ">
       <Navbar />
       <div className="flex-1">
         <div className="flex">
